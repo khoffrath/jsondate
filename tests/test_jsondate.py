@@ -25,7 +25,7 @@ class JSONDateTests(unittest.TestCase):
         # json module broken: unicode objects, empty-string objects are str
         result = json.loads(json.dumps(orig_dict))
         self.assertTypeAndValue(unicode, u'bar', result[u'foo'])
-        self.assertTypeAndValue(str, '', result[u'empty'])
+        self.assertTypeAndValue(unicode, '', result[u'empty'])
 
         # jsondate fix: always return unicode objects
         result = jsondate.loads(jsondate.dumps(orig_dict))
