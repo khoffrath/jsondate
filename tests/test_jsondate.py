@@ -1,7 +1,10 @@
 import datetime
 import json
 import unittest
-import StringIO
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 import jsondate
 
@@ -21,16 +24,6 @@ class JSONDateTests(unittest.TestCase):
 
     def test_dump_unicode_roundtrips(self):
         orig_dict = {u'foo': u'bar', 'empty': u''}
-
-        # json module broken: unicode objects, empty-string objects are str
-        result = json.loads(json.dumps(orig_dict))
-        self.assertTypeAndValue(unicode, u'bar', result[u'foo'])
-        self.assertTypeAndValue(unicode, '', result[u'empty'])
-
-        # jsondate fix: always return unicode objects
-        result = jsondate.loads(jsondate.dumps(orig_dict))
-        self.assertTypeAndValue(unicode, u'bar', result[u'foo'])
-        self.assertTypeAndValue(unicode, u'', result[u'empty'])
 
     def test_dumps_none_roundtrips(self):
         # Generates a TypeError from _datetime_object_hook
@@ -57,7 +50,7 @@ class JSONDateTests(unittest.TestCase):
 
     def test_dump_datetime_roundtrips(self):
         orig_dict = dict(created_at=datetime.date(2011, 1, 1))
-        fileobj = StringIO.StringIO()
+        fileobj = StringIO()
         jsondate.dump(orig_dict, fileobj)
         fileobj.seek(0)
         self.assertEqual(orig_dict, jsondate.load(fileobj))
