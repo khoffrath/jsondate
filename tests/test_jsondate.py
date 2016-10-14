@@ -59,3 +59,12 @@ class JSONDateTests(unittest.TestCase):
         dict_ = {'foo': set(['a'])}
         with self.assertRaises(TypeError):
             jsondate.dumps(dict_)
+
+    def test_datetime_milliseconds(self):
+        orig_dict = {
+            'created_at': datetime.datetime(2016, 10, 14, 22, 12, 30, 123456)
+        }
+        should = '{"created_at": "2016-10-14T22:12:30:123456Z"}'
+        is_value = jsondate.dumps(orig_dict)
+        self.assertEqual(should, is_value)
+

@@ -2,7 +2,7 @@ import datetime
 import json
 
 DATE_FMT = '%Y-%m-%d'
-ISO8601_FMT = '%Y-%m-%dT%H:%M:%SZ'
+ISO8601_FMT = '%Y-%m-%dT%H:%M:%S:%fZ'
 
 
 def _datetime_encoder(obj):
